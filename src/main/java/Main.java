@@ -1,19 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
 
-import utils.Define;
+import static java.awt.BorderLayout.*;
+import static utils.Define.*;
+
+import components.Canvas;
 import components.MenuBar;
+import components.ToolBar;
 
 public class Main extends JFrame {
     Main() {
         this.setTitle("MiniCAD");
-        this.setSize(Define.WINDOW_WIDTH, Define.WINDOW_HEIGHT);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
         this.setLayout(new BorderLayout());
-        this.add(new MenuBar(), BorderLayout.NORTH);
+        this.add(new MenuBar(), NORTH);
+        this.add(new ToolBar(), WEST);
+        this.add(new Canvas(), CENTER);
 
         this.setVisible(true);
     }
