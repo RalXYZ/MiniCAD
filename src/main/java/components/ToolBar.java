@@ -30,7 +30,6 @@ public class ToolBar extends JPanel {
     }
 
     public ToolBar() {
-        this.setSize(TOOL_BUTTON_SIZE, WINDOW_HEIGHT);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final LinkedList<ToolInfo> toolInfoList = new LinkedList<>();

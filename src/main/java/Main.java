@@ -5,6 +5,7 @@ import static java.awt.BorderLayout.*;
 import static utils.Define.*;
 
 import components.Canvas;
+import components.ColorBar;
 import components.MenuBar;
 import components.ToolBar;
 
@@ -20,6 +21,7 @@ public class Main extends JFrame {
         this.add(new MenuBar(), NORTH);
         this.add(new ToolBar(), WEST);
         this.add(new Canvas(), CENTER);
+        this.add(new ColorBar(), SOUTH);
 
         this.setVisible(true);
     }
