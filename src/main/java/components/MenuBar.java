@@ -6,6 +6,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
+import static utils.Define.*;
+
 public class MenuBar extends JMenuBar {
     private LinkedList<JMenu> initMenus() {
         LinkedList<JMenu> menus = new LinkedList<>();
@@ -44,6 +46,9 @@ public class MenuBar extends JMenuBar {
     }
 
     public MenuBar() {
+        Font f = new Font(this.getFont().getFontName(), this.getFont().getStyle(), MENU_FONT_SIZE);
+        UIManager.put("Menu.font", f);
+        UIManager.put("MenuItem.font", f);
         initMenus().forEach(this::add);
     }
 }

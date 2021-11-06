@@ -20,7 +20,9 @@ public class ToolBar extends JPanel {
             try {
                 BufferedImage image = ImageIO.read(new File(iconPath));
                 this.icon = new ImageIcon(image);
-                this.icon.setImage(this.icon.getImage().getScaledInstance(48, 48, Image.SCALE_DEFAULT));
+                this.icon.setImage(
+                        this.icon.getImage().getScaledInstance(TOOL_ICON_SIZE, TOOL_ICON_SIZE, Image.SCALE_DEFAULT)
+                );
             } catch (Exception e) {
                 e.printStackTrace();
             }
