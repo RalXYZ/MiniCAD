@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 public class Line extends Graphic {
+    @Override
     public void draw(Graphics2D g) {
-        g.setColor(this.color);
-        g.setStroke(new BasicStroke(this.lineWidth));
+        super.draw(g);
         g.drawLine(src.x, src.y, dest.x, dest.y);
     }
 

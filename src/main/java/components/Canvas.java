@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import graphics.Graphic;
 import graphics.Line;
 import graphics.None;
+import graphics.TextField;
 
 import static components.ToolBar.ToolInfo.Types.*;
 
@@ -79,6 +80,9 @@ public class Canvas extends JPanel {
                         break;
                     case CIRCLE:
                         Canvas.this.currentGraphic = new graphics.Circle();
+                        break;
+                    case TEXT_FIELD:
+                        Canvas.this.currentGraphic = new TextField();
                         break;
                     default:
                         Canvas.this.currentGraphic = new None();

@@ -11,7 +11,10 @@ public abstract class Graphic {
     public Color color = ColorBar.currentColor;
     public float lineWidth = Define.DEFAULT_LINE_WIDTH;
 
-    public abstract void draw(Graphics2D g);
+    public void draw(Graphics2D g) {
+        g.setColor(this.color);
+        g.setStroke(new BasicStroke(this.lineWidth));
+    }
     public abstract boolean canSelect(Point p);
 
     public void scaleUp() {

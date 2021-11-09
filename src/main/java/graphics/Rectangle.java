@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 public class Rectangle extends Graphic {
+    @Override
     public void draw(Graphics2D g) {
-        g.setColor(this.color);
-        g.setStroke(new BasicStroke(this.lineWidth));
+        super.draw(g);
         g.drawLine(src.x, src.y, dest.x, src.y);
         g.drawLine(dest.x, src.y, dest.x, dest.y);
         g.drawLine(dest.x, dest.y, src.x, dest.y);

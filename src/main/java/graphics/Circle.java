@@ -3,9 +3,9 @@ package graphics;
 import java.awt.*;
 
 public class Circle extends Graphic {
+    @Override
     public void draw(Graphics2D g) {
-        g.setColor(this.color);
-        g.setStroke(new BasicStroke(this.lineWidth));
+        super.draw(g);
         g.drawOval(src.x, src.y, dest.x - src.x, dest.y - src.y);
     }
 
