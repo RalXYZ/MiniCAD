@@ -2,9 +2,7 @@ package components;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
@@ -38,58 +36,89 @@ public class Canvas extends JPanel {
     }
 
     public Canvas() {
-        final Canvas that = this;
         this.setBackground(Color.white);
         this.resetCursorByToolType();
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new MyDispatcher());
+
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (ToolBar.currentType == LINE || ToolBar.currentType == RECTANGLE) {
-                    that.currentGraphic.dest = e.getPoint();
-                    that.repaint();
+                    Canvas.this.currentGraphic.dest = e.getPoint();
+                    Canvas.this.repaint();
                 }
             }
         });
+
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (ToolBar.currentType != NONE) {
                     return;
                 }
-                ArrayList<Graphic> target = (ArrayList<Graphic>) that.graphicArr
+                ArrayList<Graphic> target = (ArrayList<Graphic>) Canvas.this.graphicArr
                         .stream()
                         .filter(x -> x.canSelect(e.getPoint()))
                         .limit(1)
                         .collect(Collectors.toList());
                 if (target.size() == 0) {
-                    that.selectedGraphic = null;
+                    Canvas.this.selectedGraphic = null;
                 } else if (target.size() == 1) {
-                    that.selectedGraphic = target.get(0);
+                    Canvas.this.selectedGraphic = target.get(0);
                 }
             }
             @Override
             public void mousePressed(MouseEvent e) {
                 switch (ToolBar.currentType) {
                     case LINE:
-                        that.currentGraphic = new Line();
+                        Canvas.this.currentGraphic = new Line();
                         break;
                     default:
-                        that.currentGraphic = new None();
+                        Canvas.this.currentGraphic = new None();
                         break;
                 }
-                that.currentGraphic.src = e.getPoint();
-                that.currentGraphic.dest = e.getPoint();
-                that.repaint();
+                Canvas.this.currentGraphic.src = e.getPoint();
+                Canvas.this.currentGraphic.dest = e.getPoint();
+                Canvas.this.repaint();
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                that.currentGraphic.dest = e.getPoint();
+                Canvas.this.currentGraphic.dest = e.getPoint();
                 if (ToolBar.currentType != null) {
-                    that.graphicArr.add(currentGraphic);
+                    Canvas.this.graphicArr.add(currentGraphic);
                 }
-                that.repaint();
+                Canvas.this.repaint();
             }
         });
+    }
+
+    private class MyDispatcher implements KeyEventDispatcher {
+
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent e) {
+            if (Canvas.this.selectedGraphic == null) {
+                return false;
+            }
+            if (e.getID() != KeyEvent.KEY_RELEASED) {
+                return false;
+            }
+            switch (e.getKeyChar()) {
+                case '+': case '=':
+                    Canvas.this.selectedGraphic.scaleUp();
+                    break;
+                case '-': case '_':
+                    Canvas.this.selectedGraphic.scaleDown();
+                    break;
+                case '<': case ',':
+                    Canvas.this.selectedGraphic.lineWidthDown();
+                    break;
+                case '>': case '.':
+                    Canvas.this.selectedGraphic.lineWidthUp();
+            }
+            Canvas.this.repaint();
+            return true;
+        }
     }
 
     @Override
