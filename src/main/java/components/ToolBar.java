@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import static utils.Define.*;
 
 public class ToolBar extends JPanel {
+    static ToolInfo.Types currentType = ToolInfo.Types.LINE;
+
     static class ToolInfo {
         enum Types {LINE, RECTANGLE}
         Types type;

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import static utils.Define.*;
 
 public class ColorBar extends JPanel {
+    static Color currentColor;
     Color[] colors = {
             Color.BLACK, Color.BLUE, Color.CYAN, Color.DARK_GRAY,
             Color.GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
@@ -21,6 +22,10 @@ public class ColorBar extends JPanel {
             button.setBackground(x);
             button.setOpaque(true);
             button.setBorder(BorderFactory.createLoweredBevelBorder());
+            button.addActionListener(e -> {
+                currentColor = x;
+                Canvas.currentGraphic.color = x;
+            });
             this.add(button);
         });
     }
