@@ -22,7 +22,7 @@ public class Main extends JFrame {
         this.add(c, CENTER);
         this.add(new MenuBar(), NORTH);
         this.add(new ToolBar(c), WEST);
-        this.add(new ColorBar(), SOUTH);
+        this.add(new ColorBar(c), SOUTH);
 
         this.setVisible(true);
     }

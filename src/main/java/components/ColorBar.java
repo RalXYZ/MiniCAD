@@ -7,6 +7,8 @@ import java.util.Arrays;
 import static utils.Define.*;
 
 public class ColorBar extends JPanel {
+    private final Canvas c;
+
     public static Color currentColor;
     Color[] colors = {
             Color.BLACK, Color.BLUE, Color.CYAN, Color.DARK_GRAY,
@@ -14,7 +16,8 @@ public class ColorBar extends JPanel {
             Color.ORANGE, Color.PINK, Color.RED, Color.WHITE, Color.YELLOW
     };
 
-    public ColorBar() {
+    public ColorBar(Canvas c) {
+        this.c = c;
         this.setLayout(new GridLayout(1, this.colors.length));
         Arrays.stream(colors).forEach(x -> {
             JButton button = new JButton();
@@ -24,6 +27,7 @@ public class ColorBar extends JPanel {
             button.setBorder(BorderFactory.createLoweredBevelBorder());
             button.addActionListener(e -> {
                 currentColor = x;
+                c.colorChangeCallback();
             });
             this.add(button);
         });
