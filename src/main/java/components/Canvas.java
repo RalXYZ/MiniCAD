@@ -10,22 +10,11 @@ import java.util.LinkedList;
 import graphics.Graphic;
 import graphics.Line;
 import graphics.None;
+import static components.ToolBar.ToolInfo.Types.*;
 
 public class Canvas extends JPanel {
-    static Graphic currentGraphic;
+    private Graphic currentGraphic;
     private final LinkedList<Graphic> graphicArr = new LinkedList<>();
-
-    static void updateCurrentGraphic() {
-        switch (ToolBar.currentType) {
-            case LINE:
-                currentGraphic = new Line();
-                break;
-            case RECTANGLE:
-                // TODO
-            default:
-                currentGraphic = new None();
-        }
-    }
 
     public void resetCursorByToolType() {
         if (ToolBar.currentType == ToolBar.ToolInfo.Types.NONE) {
@@ -37,14 +26,13 @@ public class Canvas extends JPanel {
 
     public Canvas() {
         Canvas that = this;
-        updateCurrentGraphic();
         this.setBackground(Color.white);
         this.resetCursorByToolType();
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
-            public void mouseMoved(MouseEvent e) {
-                if (currentGraphic.src != null && !currentGraphic.destHasSet) {
-                    currentGraphic.dest = new Point(e.getX(), e.getY());
+            public void mouseDragged(MouseEvent e) {
+                if (ToolBar.currentType == LINE || ToolBar.currentType == RECTANGLE) {
+                    that.currentGraphic.dest = e.getPoint();
                     that.repaint();
                 }
             }
@@ -52,15 +40,28 @@ public class Canvas extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (currentGraphic.src == null) {
-                    currentGraphic.src = new Point(e.getX(), e.getY());
-                    currentGraphic.dest = new Point(e.getX(), e.getY());
-                } else if (!currentGraphic.destHasSet) {
-                    currentGraphic.dest = new Point(e.getX(), e.getY());
-                    currentGraphic.destHasSet = true;
-                    that.graphicArr.add(currentGraphic);
-                    updateCurrentGraphic();
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                switch (ToolBar.currentType) {
+                    case LINE:
+                        that.currentGraphic = new Line();
+                        break;
+                    default:
+                        that.currentGraphic = new None();
+                        break;
                 }
+                that.currentGraphic.src = e.getPoint();
+                that.currentGraphic.dest = e.getPoint();
+                that.repaint();
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                that.currentGraphic.dest = e.getPoint();
+                if (ToolBar.currentType != null) {
+                    that.graphicArr.add(currentGraphic);
+                }
+                that.repaint();
             }
         });
     }
@@ -69,8 +70,8 @@ public class Canvas extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.graphicArr.forEach(x -> x.draw((Graphics2D) g));
-        if (currentGraphic.dest != null) {
-            currentGraphic.draw((Graphics2D) g);
+        if (this.currentGraphic != null) {
+            this.currentGraphic.draw((Graphics2D) g);
         }
     }
 }

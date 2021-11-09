@@ -49,7 +49,6 @@ public class ToolBar extends JPanel {
             this.add(button);
             button.addActionListener(e -> {
                 currentType = x.type;
-                Canvas.updateCurrentGraphic();
                 canvas.resetCursorByToolType();
             });
         });
