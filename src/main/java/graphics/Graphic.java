@@ -4,8 +4,9 @@ import components.ColorBar;
 import utils.Define;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Graphic {
+public abstract class Graphic implements Serializable {
     public Point src;
     public Point dest;
     public Color color = ColorBar.currentColor;
@@ -42,6 +43,13 @@ public abstract class Graphic {
     public void lineWidthDown() {
         this.lineWidth -= 0.25;
         // FIXME: if width <= 0, pop up a message box
+    }
+
+    public void move(int x, int y) {
+        this.src.x += x;
+        this.src.y += y;
+        this.dest.x += x;
+        this.dest.y += y;
     }
 
 }
