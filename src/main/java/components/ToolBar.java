@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.LinkedList;
+import java.util.stream.Stream;
 
 import static utils.Define.*;
 
@@ -14,7 +14,7 @@ public class ToolBar extends JPanel {
     private final Canvas canvas;
 
     static class ToolInfo {
-        enum Types { NONE, LINE, RECTANGLE }
+        enum Types { NONE, LINE, RECTANGLE, CIRCLE }
         Types type;
         ImageIcon icon;
 
@@ -36,12 +36,12 @@ public class ToolBar extends JPanel {
         this.canvas = c;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final LinkedList<ToolInfo> toolInfoList = new LinkedList<>();
-        toolInfoList.add(new ToolInfo(ToolInfo.Types.NONE, ICON_BASE_PATH + "/pointer.png"));
-        toolInfoList.add(new ToolInfo(ToolInfo.Types.LINE, ICON_BASE_PATH + "/line.png"));
-        toolInfoList.add(new ToolInfo(ToolInfo.Types.RECTANGLE, ICON_BASE_PATH + "/rectangle.png"));
-
-        toolInfoList.forEach(x -> {
+        Stream.of(
+                new ToolInfo(ToolInfo.Types.NONE, ICON_BASE_PATH + "/pointer.png"),
+                new ToolInfo(ToolInfo.Types.LINE, ICON_BASE_PATH + "/line.png"),
+                new ToolInfo(ToolInfo.Types.RECTANGLE, ICON_BASE_PATH + "/rectangle.png"),
+                new ToolInfo(ToolInfo.Types.CIRCLE, ICON_BASE_PATH + "/circle.png")
+        ).forEach(x -> {
             JButton button = new JButton(x.icon);
             button.setSize(TOOL_BUTTON_SIZE, TOOL_BUTTON_SIZE);
             button.setOpaque(true);

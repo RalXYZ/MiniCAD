@@ -7,7 +7,6 @@ import java.util.Arrays;
 import static utils.Define.*;
 
 public class ColorBar extends JPanel {
-    private final Canvas c;
 
     public static Color currentColor;
     Color[] colors = {
@@ -17,7 +16,6 @@ public class ColorBar extends JPanel {
     };
 
     public ColorBar(Canvas c) {
-        this.c = c;
         this.setLayout(new GridLayout(1, this.colors.length));
         Arrays.stream(colors).forEach(x -> {
             JButton button = new JButton();

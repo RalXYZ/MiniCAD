@@ -44,7 +44,7 @@ public class Canvas extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (ToolBar.currentType == LINE || ToolBar.currentType == RECTANGLE) {
+                if (ToolBar.currentType != NONE) {
                     Canvas.this.currentGraphic.dest = e.getPoint();
                     Canvas.this.repaint();
                 }
@@ -73,6 +73,12 @@ public class Canvas extends JPanel {
                 switch (ToolBar.currentType) {
                     case LINE:
                         Canvas.this.currentGraphic = new Line();
+                        break;
+                    case RECTANGLE:
+                        Canvas.this.currentGraphic = new graphics.Rectangle();
+                        break;
+                    case CIRCLE:
+                        Canvas.this.currentGraphic = new graphics.Circle();
                         break;
                     default:
                         Canvas.this.currentGraphic = new None();
