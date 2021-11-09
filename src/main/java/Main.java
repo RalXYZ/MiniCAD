@@ -18,9 +18,10 @@ public class Main extends JFrame {
         this.setLocationRelativeTo(null);
 
         this.setLayout(new BorderLayout());
+        Canvas c = new Canvas();
+        this.add(c, CENTER);
         this.add(new MenuBar(), NORTH);
-        this.add(new ToolBar(), WEST);
-        this.add(new Canvas(), CENTER);
+        this.add(new ToolBar(c), WEST);
         this.add(new ColorBar(), SOUTH);
 
         this.setVisible(true);

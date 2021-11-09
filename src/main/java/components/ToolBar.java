@@ -10,10 +10,11 @@ import java.util.LinkedList;
 import static utils.Define.*;
 
 public class ToolBar extends JPanel {
-    static ToolInfo.Types currentType = ToolInfo.Types.LINE;
+    static ToolInfo.Types currentType = ToolInfo.Types.NONE;
+    private final Canvas canvas;
 
     static class ToolInfo {
-        enum Types {LINE, RECTANGLE}
+        enum Types { NONE, LINE, RECTANGLE }
         Types type;
         ImageIcon icon;
 
@@ -31,10 +32,12 @@ public class ToolBar extends JPanel {
         }
     }
 
-    public ToolBar() {
+    public ToolBar(Canvas c) {
+        this.canvas = c;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final LinkedList<ToolInfo> toolInfoList = new LinkedList<>();
+        toolInfoList.add(new ToolInfo(ToolInfo.Types.NONE, ICON_BASE_PATH + "/pointer.png"));
         toolInfoList.add(new ToolInfo(ToolInfo.Types.LINE, ICON_BASE_PATH + "/line.png"));
         toolInfoList.add(new ToolInfo(ToolInfo.Types.RECTANGLE, ICON_BASE_PATH + "/rectangle.png"));
 
@@ -44,6 +47,11 @@ public class ToolBar extends JPanel {
             button.setOpaque(true);
             button.setBorder(BorderFactory.createRaisedBevelBorder());
             this.add(button);
+            button.addActionListener(e -> {
+                currentType = x.type;
+                Canvas.updateCurrentGraphic();
+                canvas.resetCursorByToolType();
+            });
         });
 
     }

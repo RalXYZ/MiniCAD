@@ -11,5 +11,9 @@ public class Define {
 
     public static final int COLOR_BUTTON_SIZE = 32;
 
+    public static final int DEFAULT_LINE_WIDTH = 2;
+
+    public static final int SELECT_DISTANCE = 5;
+
     public static final String ICON_BASE_PATH = "src/main/resources/icons";
 }

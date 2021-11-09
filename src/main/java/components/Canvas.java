@@ -9,26 +9,37 @@ import java.util.LinkedList;
 
 import graphics.Graphic;
 import graphics.Line;
+import graphics.None;
 
 public class Canvas extends JPanel {
     static Graphic currentGraphic;
     private final LinkedList<Graphic> graphicArr = new LinkedList<>();
 
-    private void updateCurrentGraphic() {
+    static void updateCurrentGraphic() {
         switch (ToolBar.currentType) {
             case LINE:
                 currentGraphic = new Line();
                 break;
             case RECTANGLE:
                 // TODO
+            default:
+                currentGraphic = new None();
+        }
+    }
+
+    public void resetCursorByToolType() {
+        if (ToolBar.currentType == ToolBar.ToolInfo.Types.NONE) {
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        } else {
+            this.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
         }
     }
 
     public Canvas() {
         Canvas that = this;
-        this.updateCurrentGraphic();
+        updateCurrentGraphic();
         this.setBackground(Color.white);
-        this.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+        this.resetCursorByToolType();
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -48,7 +59,7 @@ public class Canvas extends JPanel {
                     currentGraphic.dest = new Point(e.getX(), e.getY());
                     currentGraphic.destHasSet = true;
                     that.graphicArr.add(currentGraphic);
-                    that.updateCurrentGraphic();
+                    updateCurrentGraphic();
                 }
             }
         });
