@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static utils.Define.*;
@@ -23,7 +23,11 @@ public class ToolBar extends JPanel {
         public ToolInfo(Types type, String iconPath) {
             this.type = type;
             try {
-                BufferedImage image = ImageIO.read(new File(iconPath));
+                BufferedImage image = ImageIO.read(
+                        Objects.requireNonNull(
+                                this.getClass().getResourceAsStream(iconPath)
+                        )
+                );
                 this.icon = new ImageIcon(image);
                 this.icon.setImage(
                         this.icon.getImage().getScaledInstance(TOOL_ICON_SIZE, TOOL_ICON_SIZE, Image.SCALE_DEFAULT)

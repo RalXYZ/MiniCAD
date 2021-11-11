@@ -17,5 +17,5 @@ public class Define {
 
     public static final int SCALE_RATIO = 24;
 
-    public static final String ICON_BASE_PATH = "src/main/resources/icons";
+    public static final String ICON_BASE_PATH = "/icons";
 }
