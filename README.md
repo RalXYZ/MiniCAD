@@ -28,7 +28,7 @@ mvn
     - Change the line width by pressing `<` or `>`
     - Remove a graphic by pressing `r`
 3. Working area saving and loading
-    - Save the working area by selecting `Save` from the menu bar
+    - Save the working area persistently by selecting `Save` from the menu bar
     - Load the working area by pressing `Open` from the menu bar
 
 ## Architecture
@@ -112,4 +112,66 @@ public boolean canSelect(Point p) {
 }
 ```
 
+#### Text Field
 
+Based on the description above, the text field is a special case of a graphic. 
+It contains more member variables and overrides some method of the base class. 
+
+```java
+public class TextField extends Graphic {
+    public static String dummyText;
+    private final String text;
+    private FontMetrics fm;
+
+    public TextField() {
+        this.text = dummyText;
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        super.draw(g);
+        Font f = new Font("SansSerif", Font.PLAIN, Math.abs(src.y - dest.y));
+        fm = g.getFontMetrics(f);
+        g.setFont(f);
+        g.drawString(this.text, src.x, src.y);
+    }
+
+   // some methods are omitted
+}
+```
+
+The process of drawing a text field starts with filling in text message in a pop-up box. 
+The message filled will be stored in `TextField.dummyText`, which is a static variable. 
+During the initialization of a text field, `text`, a private constant member, will be copied from `TextField.dummyText`. 
+Then, the text field is positioned by `src` and font size, and then be drawn.  
+
+### Defined Constants
+
+All constants in this project are defined in `Define.java`. 
+They are declared as `public static final`. 
+It defines width and height of JFrame window, default line width, tool button size and so on.  
+
+### Serialization and Deserialization
+
+The serialization procedure traverses the list of graphics, and write each graphic into a file. 
+On the contrary, the deserialization procedure reads the file and reconstruct the list of graphics. 
+
+```java
+public void load(ObjectInputStream is) throws IOException {
+    this.graphicArr.clear();
+    try {
+        while (true) {
+            this.graphicArr.add((Graphic) is.readObject());
+        }
+    } catch (EOFException ignored) {
+    } catch (ClassNotFoundException ex) {
+        ex.printStackTrace();
+    }
+}
+
+public void save(ObjectOutputStream os) throws IOException {
+    for (Graphic g : this.graphicArr) {
+        os.writeObject(g);
+    }
+}
+```

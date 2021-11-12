@@ -27,7 +27,7 @@ public class Canvas extends JPanel {
     public void load(ObjectInputStream is) throws IOException {
         this.graphicArr.clear();
         try {
-            while (true){
+            while (true) {
                 this.graphicArr.add((Graphic) is.readObject());
             }
         } catch (EOFException ignored) {
