@@ -15,6 +15,8 @@ public class Define {
 
     public static final int SELECT_DISTANCE = 5;
 
+    public static final double LINE_WIDTH_STEP = 0.25;
+
     public static final int SCALE_RATIO = 24;
 
     public static final String ICON_BASE_PATH = "/icons";

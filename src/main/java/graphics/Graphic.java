@@ -3,6 +3,7 @@ package graphics;
 import components.ColorBar;
 import utils.Define;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 
@@ -37,12 +38,15 @@ public abstract class Graphic implements Serializable {
     }
 
     public void lineWidthUp() {
-        this.lineWidth += 0.25;
+        this.lineWidth += Define.LINE_WIDTH_STEP;
     }
 
     public void lineWidthDown() {
-        this.lineWidth -= 0.25;
-        // FIXME: if width <= 0, pop up a message box
+        if (lineWidth == Define.LINE_WIDTH_STEP) {
+            JOptionPane.showMessageDialog(null, "Line width cannot be decreased any more");
+        } else {
+            this.lineWidth -= Define.LINE_WIDTH_STEP;
+        }
     }
 
     public void move(int x, int y) {

@@ -60,7 +60,7 @@ public class ToolBar extends JPanel {
                     if (result == null) {
                         return;
                     } else {
-                        TextField.text = result;
+                        TextField.dummyText = result;
                     }
                 }
                 currentType = x.type;
